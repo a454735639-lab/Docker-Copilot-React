@@ -105,6 +105,9 @@ export function Icons() {
       <div className="px-4 sm:px-6 py-4">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">图标库</h2>
         <p className="text-gray-600 dark:text-gray-400">浏览和管理Docker镜像图标</p>
+        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          给容器换图标：在「容器详情」里点击图标即可上传；这里的内置图标可复制链接，上传过的会出现在「本地图标库」。
+        </p>
       </div>
 
       {/* 搜索和过滤 */}

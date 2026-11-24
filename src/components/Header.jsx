@@ -84,7 +84,7 @@ export function Sidebar({ activeTab, onTabChange, onLogout, isCollapsed = false,
     },
     {
       id: '#icons',
-      label: '图标',
+      label: '图标库',
       icon: ImagePlus,
     },
     {
@@ -385,7 +385,7 @@ export function MobileBottomNav({ activeTab, onTabChange, windowWidth = 1024 }) 
     },
     {
       id: '#icons',
-      label: '图标',
+      label: '图标库',
       icon: ImagePlus,
     },
     {
