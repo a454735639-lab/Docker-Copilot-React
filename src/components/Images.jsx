@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { HardDrive, Trash2, RefreshCw, Link, BrushCleaning, X, AlertCircle, CheckCircle } from 'lucide-react'
+import { HardDrive, Trash2, RefreshCw, Link, BrushCleaning, X, AlertCircle, CheckCircle, DownloadCloud, Eraser, Info } from 'lucide-react'
 import { imageAPI } from '../api/client.js'
 import { cn } from '../utils/cn.js'
 import { getImageLogo } from '../config/imageLogos.js'
+import { ImagePullModal } from './ImagePullModal.jsx'
+import { ImagePruneModal } from './ImagePruneModal.jsx'
+import { ImageDetailModal } from './ImageDetailModal.jsx'
+import { DiskUsageCard } from './DiskUsageCard.jsx'
 
 // 安全的图片组件
 function SafeImage({ src, alt, className, fallback }) {
@@ -178,6 +182,10 @@ export function Images() {
 
   return (
     <div className="max-w-7xl mx-auto">
+      <ImagePullModal open={pullOpen} onClose={() => setPullOpen(false)} onDone={fetchImages} />
+      <ImagePruneModal open={pruneOpen} onClose={() => setPruneOpen(false)} onDone={fetchImages} />
+      <ImageDetailModal imageId={detailId} onClose={() => setDetailId(null)} />
+
       {/* 页面头部 */}
       <div className="px-2 sm:px-6 py-4 pt-4 sm:pt-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
@@ -209,6 +217,22 @@ export function Images() {
               <span>未使用</span>
             </button>
             <button
+              onClick={() => setPullOpen(true)}
+              disabled={isLoading}
+              className="flex items-center gap-2 px-4 py-2 bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-200 rounded-lg hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-colors disabled:opacity-50 text-sm font-medium"
+            >
+              <DownloadCloud className="h-4 w-4" />
+              <span>拉取</span>
+            </button>
+            <button
+              onClick={() => setPruneOpen(true)}
+              disabled={isLoading}
+              className="flex items-center gap-2 px-4 py-2 bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-200 rounded-lg hover:bg-sky-200 dark:hover:bg-sky-800 transition-colors disabled:opacity-50 text-sm font-medium"
+            >
+              <Eraser className="h-4 w-4" />
+              <span>清理旧版本</span>
+            </button>
+            <button
               onClick={fetchImages}
               disabled={isLoading}
               className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 text-sm font-medium"
@@ -219,6 +243,8 @@ export function Images() {
           </div>
         </div>
       </div>
+
+      <DiskUsageCard refreshKey={images.length} />
 
       {/* 状态消息 */}
       {error && (
@@ -465,6 +491,13 @@ export function Images() {
 
                   {/* 操作按钮 */}
                   <div className="flex gap-2 pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <button
+                      onClick={() => setDetailId(image.id)}
+                      className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-xs text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors active:scale-95"
+                    >
+                      <Info className="h-3.5 w-3.5" />
+                      <span>详情</span>
+                    </button>
                     <button
                       onClick={() => setDeleteModal({ isOpen: true, image, force: false })}
                       className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors active:scale-95"

@@ -131,6 +131,11 @@ export const imageAPI = {
   getImages: () => apiClient.get('/api/images'),
   getIcons: () => apiClient.get('/api/icons'),
   deleteImage: (id, force = false) => apiClient.delete(`/api/image/${id}?force=${force}`),
+  pullImage: (image) => apiClient.post('/api/image/pull', { image }, { timeout: 15000 }),
+  imageDetail: (id) => apiClient.get(`/api/image/detail/${encodeURIComponent(id)}`),
+  pruneImages: (opts) => apiClient.post('/api/image/prune', opts, { timeout: 120000 }),
+  diskUsage: () => apiClient.get('/api/system/df'),
+  pruneSystem: (opts) => apiClient.post('/api/system/prune', opts, { timeout: 120000 }),
   uploadIcon: (file, imageName, containerName) => {
     const formData = new FormData()
     formData.append('file', file)
