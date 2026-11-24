@@ -81,6 +81,11 @@ export function Sidebar({ activeTab, onTabChange, onLogout, isCollapsed = false,
       icon: DatabaseBackup,
     },
     {
+      id: '#settings',
+      label: '设置',
+      icon: SettingsIcon,
+    },
+    {
       id: '#about',
       label: '关于',
       icon: Info,
@@ -370,6 +375,11 @@ export function MobileBottomNav({ activeTab, onTabChange, windowWidth = 1024 }) 
       id: '#backups',
       label: '备份',
       icon: DatabaseBackup,
+    },
+    {
+      id: '#settings',
+      label: '设置',
+      icon: SettingsIcon,
     },
     {
       id: '#about',

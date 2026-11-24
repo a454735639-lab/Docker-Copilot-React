@@ -145,6 +145,12 @@ export const imageAPI = {
 }
 
 // 进度查询API
+// 运行时设置 API
+export const settingsAPI = {
+  getSettings: () => apiClient.get('/api/settings'),
+  updateSettings: (values) => apiClient.post('/api/settings', values),
+}
+
 export const progressAPI = {
   getProgress: (taskid) => apiClient.get(`/api/progress/${taskid}`),
 }
