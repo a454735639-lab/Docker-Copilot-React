@@ -196,7 +196,7 @@ export function Images() {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">镜像管理</h2>
             <p className="text-gray-600 dark:text-gray-400 mt-1">查看和管理Docker镜像</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => {
                 const imagesToDelete = images.filter(img => img.tag === 'None' || img.tag === '<none>')
