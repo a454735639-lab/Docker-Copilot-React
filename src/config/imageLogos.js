@@ -3,6 +3,8 @@
 // 支持镜像名称匹配，如 "nginx" 会匹配 "nginx:latest", "nginx:alpine" 等
 
 // 导入图片资源
+import MagpieLogo from '../assets/logos/magpie.svg';
+import ZashboardLogo from '../assets/logos/zashboard.svg';
 import MediaSaberLogo from '../assets/logos/media-saber.png';
 import MoviepilotLogo from '../assets/logos/moviepilot.png';
 import DockerCopilotLogo from '../assets/logos/docker-copilot.png';
@@ -71,6 +73,8 @@ export const builtInImageLogos = {
   "gatecross/ms_tmdb":MsTmdbLogo,
   "ms_tmdb":MsTmdbLogo,
   "dockercopilot": DockerCopilotLogo,
+  "magpie": MagpieLogo,
+  "zashboard": ZashboardLogo,
   "sun-panel-helper": SunPanelLogo,
 };
 
