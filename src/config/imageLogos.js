@@ -70,6 +70,8 @@ export const builtInImageLogos = {
   "zhaoyangguang/rebatedog":RichDogLogo,
   "gatecross/ms_tmdb":MsTmdbLogo,
   "ms_tmdb":MsTmdbLogo,
+  "dockercopilot": DockerCopilotLogo,
+  "sun-panel-helper": SunPanelLogo,
 };
 
 // 获取镜像的logo
