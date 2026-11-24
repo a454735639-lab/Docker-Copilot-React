@@ -15,6 +15,7 @@ import { containerAPI, progressAPI, imageAPI } from '../api/client.js'
 import { cn } from '../utils/cn.js'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getImageLogo } from '../config/imageLogos.js'
+import { ContainerIcon } from './ContainerIcon.jsx'
 import icons8Img from '../assets/icons8.png'
 
 // 格式化运行时间为中文
@@ -1011,54 +1012,12 @@ export function Containers() {
                       <div className="relative z-10 flex items-center gap-3">
                         {/* 图标 */}
                         <div className="flex-shrink-0">
-                          {(() => {
-                            let iconUrl = container.iconUrl;
-                            if (!iconUrl && container.usingImage) {
-                              const builtInLogo = getImageLogo(container.usingImage);
-                              if (builtInLogo) {
-                                iconUrl = builtInLogo;
-                              } else {
-                                // 如果没有内置logo，则尝试从用户自定义中查找
-                                // const imageLogos = JSON.parse(localStorage.getItem('docker_copilot_image_logos') || '{}');
-                                // 使用 React Query 获取的数据
-                                const imageLogos = customIcons;
-
-                                for (const [imageName, logoUrl] of Object.entries(imageLogos)) {
-                                  if (container.usingImage.startsWith(imageName) ||
-                                    container.usingImage.includes(`${imageName}:`)) {
-                                    iconUrl = logoUrl;
-                                    break;
-                                  }
-                                }
-                              }
-                            }
-
-                            if (iconUrl) {
-                              return (
-                                <img
-                                  src={iconUrl}
-                                  alt={container.name}
-                                  className="h-12 w-12 rounded-xl object-cover shadow-sm flex-shrink-0"
-                                  onError={(e) => {
-                                    e.target.style.display = 'none';
-                                    e.target.parentElement.innerHTML = `
-                                    <div class="h-12 w-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-sm">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-white">
-                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                                      </svg>
-                                    </div>
-                                  `;
-                                  }}
-                                />
-                              );
-                            } else {
-                              return (
-                                <div className="h-12 w-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
-                                  <Package className="h-6 w-6 text-white" />
-                                </div>
-                              );
-                            }
-                          })()}
+                          <ContainerIcon
+                              name={container.name}
+                              usingImage={container.usingImage}
+                              iconUrl={container.iconUrl}
+                              customIcons={customIcons}
+                            />
                         </div>
 
                         {/* 状态指示器（放在图标和信息之间） */}
@@ -1543,8 +1502,12 @@ function ContainerDetailModal({ container, onClose, onRename, onUpdate, onAction
           accept="image/png,image/jpeg,image/webp,image/svg+xml"
         />
 
-        <IconContent />
-        <FallbackIcon />
+        <ContainerIcon
+          name={currentContainer.name}
+          usingImage={currentContainer.usingImage}
+          iconUrl={currentContainer.iconUrl}
+          customIcons={customIcons}
+        />
 
         {/* 悬停覆盖层 */}
         <div className="absolute inset-0 bg-black bg-opacity-50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

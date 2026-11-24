@@ -156,3 +156,51 @@ export const hasBuiltInLogo = (imageName) => {
   }
   return false;
 };
+
+// ---- 在线图标回退（Simple Icons CDN）----
+// 内置资源没覆盖的常见镜像用品牌图标兜底；都没命中的由 UI 显示首字母头像。
+const SIMPLE_ICON_ALIASES = {
+  postgres: 'postgresql',
+  cloudflared: 'cloudflare',
+  'moviepilot-v3': 'moviepilot',
+  vaultwarden: 'vaultwarden',
+  adminer: 'adminer',
+  emby: 'emby',
+  jellyfin: 'jellyfin',
+  qbittorrent: 'qbittorrent',
+  transmission: 'transmission',
+  redis: 'redis',
+  nginx: 'nginx',
+  mysql: 'mysql',
+  mariadb: 'mariadb',
+  mongodb: 'mongodb',
+  gitea: 'gitea',
+  portainer: 'portainer',
+  grafana: 'grafana',
+  prometheus: 'prometheus',
+  nextcloud: 'nextcloud',
+  homeassistant: 'homeassistant',
+  'uptime-kuma': 'uptimekuma',
+  alpine: 'alpinelinux',
+  docker: 'docker',
+  ubuntu: 'ubuntu',
+  debian: 'debian',
+  python: 'python',
+  node: 'nodedotjs',
+  plex: 'plex',
+  sonarr: 'sonarr',
+  radarr: 'radarr',
+}
+
+const simpleNameOf = (imageName) => {
+  const base = String(imageName || '').split('@')[0].split(':')[0].toLowerCase()
+  return { base, simple: base.split('/').pop() }
+}
+
+// 返回在线图标地址；没有可用品牌图标时返回 null（交给首字母头像）
+export const getRemoteLogo = (imageName) => {
+  const { base, simple } = simpleNameOf(imageName)
+  const slug = SIMPLE_ICON_ALIASES[base] || SIMPLE_ICON_ALIASES[simple]
+  if (!slug) return null
+  return `https://cdn.simpleicons.org/${slug}`
+}
