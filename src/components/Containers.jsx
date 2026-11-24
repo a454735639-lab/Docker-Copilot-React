@@ -1169,6 +1169,8 @@ function ContainerDetailModal({ container, onClose, onRename, onUpdate, onAction
   const [currentContainer, setCurrentContainer] = useState(container)
   const fileInputRef = React.useRef(null)
   const [isUploadingIcon, setIsUploadingIcon] = useState(false)
+  // 详情弹窗里上传图标失败时的提示状态（原代码引用了外层组件的 setConfirmModal，会 ReferenceError）
+  const [confirmModal, setConfirmModal] = useState({ isOpen: false, title: '', message: '', type: '' })
 
   // 获取自定义图标配置
   const { data: customIcons = {} } = useQuery({

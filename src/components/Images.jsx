@@ -36,6 +36,9 @@ export function Images() {
   const [filterStatus, setFilterStatus] = useState(null) // null 表示显示全部
   const [pruneModal, setPruneModal] = useState({ isOpen: false, type: null, images: [] })
   const [successModal, setSuccessModal] = useState({ isOpen: false, message: '' })
+  const [pullOpen, setPullOpen] = useState(false)
+  const [pruneOpen, setPruneOpen] = useState(false)
+  const [detailId, setDetailId] = useState(null)
 
   // 获取自定义图标配置
   const { data: customIcons = {} } = useQuery({
