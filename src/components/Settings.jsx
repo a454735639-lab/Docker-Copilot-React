@@ -34,7 +34,7 @@ const SECTIONS = [
         label: '开关',
         placeholder: '',
         options: ['', '1', '0'],
-        optionLabels: { '': '关闭', 1: '开启', 0: '关闭' },
+        optionLabels: { '': '默认', 1: '开启', 0: '关闭' },
       },
       { key: 'autoUpdateCron', label: '执行时刻', placeholder: '0 4 * * *（默认每天 04:00）' },
       { key: 'autoUpdateInclude', label: '仅更新这些容器', placeholder: '留空=全部（逗号分隔，支持 *）' },
@@ -50,7 +50,7 @@ const SECTIONS = [
         label: '开关',
         placeholder: '',
         options: ['', '1', '0'],
-        optionLabels: { '': '关闭', 1: '开启', 0: '关闭' },
+        optionLabels: { '': '默认', 1: '开启', 0: '关闭' },
       },
       { key: 'pruneKeep', label: '每个仓库保留', placeholder: '2（个版本）' },
       {
@@ -58,14 +58,14 @@ const SECTIONS = [
         label: '顺带清理无标签镜像',
         placeholder: '',
         options: ['', '1', '0'],
-        optionLabels: { '': '不清理', 1: '清理', 0: '不清理' },
+        optionLabels: { '': '默认', 1: '清理', 0: '不清理' },
       },
       {
         key: 'pruneDryRun',
         label: '试运行',
         placeholder: '',
         options: ['', '1', '0'],
-        optionLabels: { '': '关闭', 1: '只记录不删除', 0: '关闭' },
+        optionLabels: { '': '默认', 1: '只记录不删除', 0: '真删除' },
       },
     ],
   },
@@ -172,7 +172,7 @@ export function Settings() {
             <div className="flex items-center gap-2">
               <button
                 onClick={load}
-                disabled={loading || saving}
+                disabled={saving}
                 className="flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors disabled:opacity-50"
               >
                 <RefreshCw className={'h-4 w-4' + (loading ? ' animate-spin' : '')} />
@@ -180,7 +180,7 @@ export function Settings() {
               </button>
               <button
                 onClick={save}
-                disabled={loading || saving}
+                disabled={saving}
                 className="flex items-center gap-1.5 px-4 py-2 text-sm rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors shadow-sm disabled:opacity-50"
               >
                 <Save className="h-4 w-4" />

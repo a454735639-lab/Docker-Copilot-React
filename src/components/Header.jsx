@@ -5,6 +5,7 @@ import {
   Server,
   DatabaseBackup,
   Info,
+  ImagePlus,
   Settings as SettingsIcon
 } from 'lucide-react'
 import { ThemeToggle } from './ThemeToggle.jsx'
@@ -80,6 +81,11 @@ export function Sidebar({ activeTab, onTabChange, onLogout, isCollapsed = false,
       id: '#backups',
       label: '备份',
       icon: DatabaseBackup,
+    },
+    {
+      id: '#icons',
+      label: '图标',
+      icon: ImagePlus,
     },
     {
       id: '#settings',
@@ -376,6 +382,11 @@ export function MobileBottomNav({ activeTab, onTabChange, windowWidth = 1024 }) 
       id: '#backups',
       label: '备份',
       icon: DatabaseBackup,
+    },
+    {
+      id: '#icons',
+      label: '图标',
+      icon: ImagePlus,
     },
     {
       id: '#settings',

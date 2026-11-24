@@ -147,8 +147,8 @@ export const imageAPI = {
 // 进度查询API
 // 运行时设置 API
 export const settingsAPI = {
-  getSettings: () => apiClient.get('/api/settings'),
-  updateSettings: (values) => apiClient.post('/api/settings', values),
+  getSettings: () => apiClient.get('/api/settings', { timeout: 15000 }),
+  updateSettings: (values) => apiClient.post('/api/settings', values, { timeout: 15000 }),
 }
 
 export const progressAPI = {
