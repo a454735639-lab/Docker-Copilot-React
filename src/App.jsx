@@ -6,6 +6,7 @@ import { Images } from './components/Images.jsx'
 import { Backups } from './components/Backups.jsx'
 import { Icons } from './components/Icons.jsx'
 import { Settings } from './components/Settings.jsx'
+import { ErrorBoundary } from './components/ErrorBoundary.jsx'
 import { About } from './components/About.jsx'
 import { ThemeProvider } from './hooks/useTheme.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -192,7 +193,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <AppContent />
+        <ErrorBoundary>
+          <AppContent />
+        </ErrorBoundary>
       </ThemeProvider>
     </QueryClientProvider>
   )

@@ -4,7 +4,8 @@ import {
   LogOut,
   Server,
   DatabaseBackup,
-  Info
+  Info,
+  Settings as SettingsIcon
 } from 'lucide-react'
 import { ThemeToggle } from './ThemeToggle.jsx'
 import { UpdatePrompt } from './UpdatePrompt.jsx'
