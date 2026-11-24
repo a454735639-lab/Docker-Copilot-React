@@ -47,10 +47,22 @@ function AppContent() {
   const isSidebarCollapsed = getSmartCollapsedState(windowWidth, userPreferredCollapsed)
 
   useEffect(() => {
-    // 检查本地存储中是否有token
-    const token = localStorage.getItem('docker_copilot_token')
-    if (token) {
+    // 检查本地存储中是否有token。
+    // WebKit 偶发在读 storage 时抛错或返回 null（实测刷新后有效会话被踢回登录页），
+    // 这里包一层并在 400ms 后重试一次。
+    const readToken = () => {
+      try {
+        return localStorage.getItem('docker_copilot_token')
+      } catch (e) {
+        return null
+      }
+    }
+    if (readToken()) {
       setIsAuthenticated(true)
+    } else {
+      setTimeout(() => {
+        if (readToken()) setIsAuthenticated(true)
+      }, 400)
     }
 
     // 同步图标配置

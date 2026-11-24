@@ -47,7 +47,7 @@ export function ImagePruneModal({ open, onClose, onDone }) {
 
   if (!open) return null
 
-  const list = report ? (report.dryRun ? report.candidates : report.removed) : []
+  const list = (report && (report.dryRun ? report.candidates : report.removed)) || []
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
