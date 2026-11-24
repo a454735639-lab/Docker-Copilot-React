@@ -39,7 +39,6 @@ export function Images() {
   const [pullOpen, setPullOpen] = useState(false)
   const [pruneOpen, setPruneOpen] = useState(false)
   const [detailId, setDetailId] = useState(null)
-  const [cleanupMenu, setCleanupMenu] = useState(false)
 
   // 获取自定义图标配置
   const { data: customIcons = {} } = useQuery({
@@ -198,59 +197,28 @@ export function Images() {
             <p className="text-gray-600 dark:text-gray-400 mt-1">查看和管理Docker镜像</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <div className="relative">
-              <button
-                onClick={() => setCleanupMenu((v) => !v)}
-                disabled={isLoading}
-                className="flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-200 rounded-lg hover:bg-orange-200 dark:hover:bg-orange-800 transition-colors disabled:opacity-50 text-sm font-medium"
-              >
-                <BrushCleaning className="h-4 w-4" />
-                <span>清理</span>
-                <ChevronDown className="h-3.5 w-3.5" />
-              </button>
-              {cleanupMenu && (
-                <>
-                  <div className="fixed inset-0 z-30" onClick={() => setCleanupMenu(false)} />
-                  <div className="absolute right-0 top-full mt-1 w-60 z-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-1 overflow-hidden">
-                    <button
-                      onClick={() => {
-                        const imagesToDelete = images.filter(img => img.tag === 'None' || img.tag === '<none>')
-                        setPruneModal({ isOpen: true, type: 'dangling', images: imagesToDelete })
-                        setCleanupMenu(false)
-                      }}
-                      disabled={isLoading || images.filter(img => img.tag === 'None' || img.tag === '<none>').length === 0}
-                      className="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed"
-                    >
-                      <span>清理无 Tag 镜像</span>
-                      <span className="text-xs text-gray-400">{images.filter(img => img.tag === 'None' || img.tag === '<none>').length}</span>
-                    </button>
-                    <button
-                      onClick={() => {
-                        const imagesToDelete = images.filter(img => !img.inUsed)
-                        setPruneModal({ isOpen: true, type: 'unused', images: imagesToDelete })
-                        setCleanupMenu(false)
-                      }}
-                      disabled={isLoading || images.filter(img => !img.inUsed).length === 0}
-                      className="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed"
-                    >
-                      <span>清理未使用镜像</span>
-                      <span className="text-xs text-gray-400">{images.filter(img => !img.inUsed).length}</span>
-                    </button>
-                    <button
-                      onClick={() => {
-                        setPruneOpen(true)
-                        setCleanupMenu(false)
-                      }}
-                      disabled={isLoading}
-                      className="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed"
-                    >
-                      <span>按仓库保留 N 个版本…</span>
-                      <span className="text-xs text-gray-400">PRUNE</span>
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
+            <button
+              onClick={() => {
+                const imagesToDelete = images.filter(img => img.tag === 'None' || img.tag === '<none>')
+                setPruneModal({ isOpen: true, type: 'dangling', images: imagesToDelete })
+              }}
+              disabled={isLoading || images.filter(img => img.tag === 'None' || img.tag === '<none>').length === 0}
+              className="flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-200 rounded-lg hover:bg-orange-200 dark:hover:bg-orange-800 transition-colors disabled:opacity-50 text-sm font-medium"
+            >
+              <BrushCleaning className="h-4 w-4" />
+              <span>无Tag</span>
+            </button>
+            <button
+              onClick={() => {
+                const imagesToDelete = images.filter(img => !img.inUsed)
+                setPruneModal({ isOpen: true, type: 'unused', images: imagesToDelete })
+              }}
+              disabled={isLoading || images.filter(img => !img.inUsed).length === 0}
+              className="flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-200 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors disabled:opacity-50 text-sm font-medium"
+            >
+              <BrushCleaning className="h-4 w-4" />
+              <span>未使用</span>
+            </button>
             <button
               onClick={() => setPullOpen(true)}
               disabled={isLoading}
@@ -260,6 +228,14 @@ export function Images() {
               <span>拉取</span>
             </button>
 
+            <button
+              onClick={() => setPruneOpen(true)}
+              disabled={isLoading}
+              className="flex items-center gap-2 px-4 py-2 bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-200 rounded-lg hover:bg-sky-200 dark:hover:bg-sky-800 transition-colors disabled:opacity-50 text-sm font-medium"
+            >
+              <Eraser className="h-4 w-4" />
+              <span>清理旧版本</span>
+            </button>
             <button
               onClick={fetchImages}
               disabled={isLoading}
