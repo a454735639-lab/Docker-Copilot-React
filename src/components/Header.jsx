@@ -426,7 +426,7 @@ export function MobileBottomNav({ activeTab, onTabChange, windowWidth = 1024 }) 
                   title={item.label}
                 >
                   <Icon className="h-5 w-5 flex-shrink-0" />
-                  <span className="text-xs font-medium">{item.label}</span>
+                  <span className="text-[10px] sm:text-xs font-medium whitespace-nowrap leading-tight">{item.label}</span>
                 </button>
               )
             })}
