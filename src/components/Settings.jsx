@@ -230,6 +230,22 @@ export function Settings() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {section.fields.map(renderField)}
             </div>
+            {section.title === '企业微信（可选）' && (
+              <div className="mt-2 flex items-center gap-2 text-xs">
+                <button
+                  onClick={testNotify}
+                  disabled={saving}
+                  className="px-3 py-1.5 rounded-lg bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50"
+                >
+                  发送测试消息
+                </button>
+                {testResult && (
+                  <span className={testResult.type === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
+                    {testResult.msg}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         ))}
 
