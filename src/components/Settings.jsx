@@ -33,7 +33,7 @@ const SECTIONS = [
       { key: 'wecomSecret', label: '应用 Secret', placeholder: '企业微信应用的 Secret' },
       { key: 'wecomAgentId', label: 'Agent ID', placeholder: '如 1000002' },
       { key: 'wecomToUser', label: '接收人', placeholder: '@all（默认全部成员）' },
-      { key: 'wecomProxy', label: '代理', placeholder: 'none=直连（默认）/ 留空=走系统代理 / http://...' },
+      { key: 'wecomProxy', label: '企业微信专用代理', placeholder: 'none=直连（默认）/ 留空=跟系统 / http://...' }
     ],
   },
   {
@@ -87,6 +87,7 @@ export function Settings() {
   const [sources, setSources] = useState({})
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [testResult, setTestResult] = useState('')
   const [toast, setToast] = useState(null)
 
   useEffect(() => {
@@ -109,6 +110,21 @@ export function Settings() {
       setToast({ type: 'error', msg: '加载设置失败：' + (error.message || error) })
     } finally {
       setLoading(false)
+    }
+  }
+
+  // 发送测试通知，结果直接在当前页显示，不保存
+  const testNotify = async () => {
+    setTestResult(null)
+    try {
+      const response = await settingsAPI.testNotify(values)
+      if (response.data.code === 200) {
+        setTestResult({ type: 'success', msg: response.data.msg + (response.data.data ? ('\n格式: ' + response.data.data.result) : '') })
+      } else {
+        setTestResult({ type: 'error', msg: response.data.msg })
+      }
+    } catch (e) {
+      setTestResult({ type: 'error', msg: e.message || '请求失败' })
     }
   }
 

@@ -158,6 +158,7 @@ export const imageAPI = {
 export const settingsAPI = {
   getSettings: () => apiClient.get('/api/settings', { timeout: 15000 }),
   updateSettings: (values) => apiClient.post('/api/settings', values, { timeout: 15000 }),
+  testNotify: (values) => apiClient.post('/api/settings/test-notify', values, { timeout: 20000 }),
 }
 
 export const progressAPI = {
