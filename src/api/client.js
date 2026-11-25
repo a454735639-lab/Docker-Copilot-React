@@ -78,11 +78,15 @@ apiClient.interceptors.response.use(
 
 // 认证相关API
 export const authAPI = {
-  login: (secretKey) => {
+  getCaptcha: () => apiClient.get('/api/auth/captcha', { timeout: 10000 }),
+  login: (secretKey, captchaId, captchaCode) => {
     const formData = new FormData()
     formData.append('secretKey', secretKey)
+    formData.append('captchaId', captchaId)
+    formData.append('captchaCode', captchaCode)
     return apiClient.post('/api/auth', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' },
+      timeout: 15000,
     })
   },
 }

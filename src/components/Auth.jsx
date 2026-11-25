@@ -1,22 +1,43 @@
-import React, { useState } from 'react'
-import { Key, LogIn, Eye, EyeOff } from 'lucide-react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Key, LogIn, Eye, EyeOff, RefreshCw } from 'lucide-react'
 import { authAPI } from '../api/client.js'
 import { cn } from '../utils/cn.js'
 import logoImg from '../assets/DockerCopilot-logo.webp'
 
 export function Auth({ onLogin }) {
   const [secretKey, setSecretKey] = useState('')
+  const [captchaCode, setCaptchaCode] = useState('')
+  const [captcha, setCaptcha] = useState({ id: '', svg: '' })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
+  // 拉取图形验证码；登录失败（含验证码错误）后自动换一张
+  const loadCaptcha = useCallback(async () => {
+    try {
+      const response = await authAPI.getCaptcha()
+      if (response.data.code === 200) {
+        setCaptcha({ id: response.data.data.captchaId, svg: response.data.data.svg })
+        setCaptchaCode('')
+      }
+    } catch (e) {
+      // 验证码拉取失败不阻塞登录，后端会返回明确的错误提示
+      setCaptcha({ id: '', svg: '' })
+    }
+  }, [])
+
+  useEffect(() => { loadCaptcha() }, [loadCaptcha])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const formData = new FormData(e.target)
-    const key = formData.get('secretKey').trim()
+    const key = secretKey.trim()
 
     if (!key) {
       setError('请输入密钥')
+      return
+    }
+    if (!captcha.id) {
+      setError('验证码未加载，请点击刷新')
       return
     }
 
@@ -24,15 +45,18 @@ export function Auth({ onLogin }) {
     setError('')
 
     try {
-      const response = await authAPI.login(key)
+      const response = await authAPI.login(key, captcha.id, captchaCode.trim())
       if (response.data.code === 200) {
         localStorage.setItem('docker_copilot_token', response.data.data.jwt)
         onLogin()
       } else {
         setError(response.data.msg || '认证失败')
+        // 验证码是一次性的，无论因为什么失败都要换一张
+        loadCaptcha()
       }
     } catch (err) {
       setError(err.response?.data?.msg || '网络错误，请检查后端服务')
+      loadCaptcha()
     } finally {
       setIsLoading(false)
     }
@@ -44,7 +68,7 @@ export function Auth({ onLogin }) {
         {/* 头部 */}
         <div className="text-center">
           <div className="flex justify-center mb-4">
-            <img 
+            <img
               src={logoImg}
               alt="Docker Copilot"
               className="h-32 w-32 rounded-2xl object-cover"
@@ -80,6 +104,40 @@ export function Auth({ onLogin }) {
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              </button>
+            </div>
+          </div>
+
+          {/* 图形验证码 */}
+          <div>
+            <label htmlFor="captchaCode" className="sr-only">
+              验证码
+            </label>
+            <div className="flex items-stretch gap-2">
+              <input
+                id="captchaCode"
+                name="captchaCode"
+                type="text"
+                required
+                autoComplete="off"
+                className="input flex-1 min-w-0"
+                placeholder="输入右侧验证码"
+                value={captchaCode}
+                onChange={(e) => setCaptchaCode(e.target.value)}
+              />
+              <button
+                type="button"
+                onClick={loadCaptcha}
+                title="看不清？点此刷新"
+                className="flex items-center justify-center px-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden flex-shrink-0 hover:border-primary-400 transition-colors"
+              >
+                {captcha.svg ? (
+                  <span className="block h-[44px]" dangerouslySetInnerHTML={{ __html: captcha.svg }} />
+                ) : (
+                  <span className="h-[44px] px-2 text-xs text-gray-400 flex items-center gap-1">
+                    <RefreshCw className="h-3.5 w-3.5 animate-spin" /> 加载中
+                  </span>
+                )}
               </button>
             </div>
           </div>
