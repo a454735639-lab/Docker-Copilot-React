@@ -455,7 +455,7 @@ export function Images() {
                         href={`https://hub.docker.com/r/${image.name}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1.5 text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 rounded transition-colors active:scale-95"
+                        className="p-2 text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 rounded transition-colors active:scale-95"
                         title="在Docker Hub查看"
                       >
                         <Link className="h-4 w-4" />

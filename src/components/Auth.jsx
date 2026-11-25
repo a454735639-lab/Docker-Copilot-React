@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Key, LogIn, Eye, EyeOff } from 'lucide-react'
 import { authAPI } from '../api/client.js'
 import { cn } from '../utils/cn.js'
-import logoImg from '../assets/DockerCopilot-logo.png'
+import logoImg from '../assets/DockerCopilot-logo.webp'
 
 export function Auth({ onLogin }) {
   const [secretKey, setSecretKey] = useState('')

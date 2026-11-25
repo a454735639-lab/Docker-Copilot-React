@@ -1,8 +1,8 @@
 import React from 'react'
 import { Github, Mail, Heart, MessageSquare } from 'lucide-react'
-import wechatImg from '../assets/wechat.jpg'
-import alipayImg from '../assets/alipay.jpg'
-import logoImg from '../assets/DockerCopilot-logo.png'
+import wechatImg from '../assets/wechat.webp'
+import alipayImg from '../assets/alipay.webp'
+import logoImg from '../assets/DockerCopilot-logo.webp'
 
 export function About() {
   return (

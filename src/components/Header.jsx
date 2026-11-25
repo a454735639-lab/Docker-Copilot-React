@@ -11,7 +11,7 @@ import {
 import { ThemeToggle } from './ThemeToggle.jsx'
 import { UpdatePrompt } from './UpdatePrompt.jsx'
 import { cn } from '../utils/cn.js'
-import logoImg from '../assets/DockerCopilot-logo.png'
+import logoImg from '../assets/DockerCopilot-logo.webp'
 import { useVersionCheck } from '../hooks/useVersionCheck.js'
 
 export function Sidebar({ activeTab, onTabChange, onLogout, isCollapsed = false, onToggleCollapse, windowWidth = 1024 }) {
