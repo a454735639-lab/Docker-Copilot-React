@@ -26,6 +26,16 @@ const SECTIONS = [
     ],
   },
   {
+    title: '企业微信（可选）',
+    desc: '通知格式选 wecom_app 时使用（Corpid+Secret+Agentid 应用消息，可直达微信 App）；若用群机器人，把 webhook 填进"通知地址"并选 wecom_webhook 即可，这四项留空',
+    fields: [
+      { key: 'wecomCorpId', label: 'Corp ID', placeholder: 'ww 开头的企业 ID' },
+      { key: 'wecomSecret', label: '应用 Secret', placeholder: '企业微信应用的 Secret' },
+      { key: 'wecomAgentId', label: 'Agent ID', placeholder: '如 1000002' },
+      { key: 'wecomToUser', label: '接收人', placeholder: '@all（默认全部成员）' },
+    ],
+  },
+  {
     title: '定时自动更新',
     desc: '到点自动拉取新镜像并重建容器，失败会自动回滚；关闭时只通知不动容器',
     fields: [
