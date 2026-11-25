@@ -314,36 +314,17 @@ export function Sidebar({ activeTab, onTabChange, onLogout, isCollapsed = false,
                   </div>
                 </div>
 
-                {/* 团队信息 - 紧凑两列 */}
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="rounded-lg bg-gray-50 dark:bg-gray-800/60 px-2.5 py-2">
-                    <span className="text-[10px] text-gray-400 dark:text-gray-500">前端</span>
-                    <p className="text-xs font-medium text-gray-800 dark:text-gray-200 mt-0.5">DongShu</p>
-                  </div>
-                  <div className="rounded-lg bg-gray-50 dark:bg-gray-800/60 px-2.5 py-2">
-                    <span className="text-[10px] text-gray-400 dark:text-gray-500">后端</span>
-                    <p className="text-xs font-medium text-gray-800 dark:text-gray-200 mt-0.5">onlyLTY</p>
-                  </div>
-                </div>
-
-                {/* 构建日期 + 更新提示 */}
-                <div className="flex items-center justify-between px-1">
-                  {buildDate ? (
-                    <span className="text-[10px] text-gray-400 dark:text-gray-500" title={formatVersionBuildDate(buildDate)}>
-                      构建 {formatVersionBuildDate(buildDate).split(' ')[0]}
-                    </span>
-                  ) : (
-                    <span />
-                  )}
-                  {hasBackendUpdate && (
+                {/* 有新版本时才显示提示 */}
+                {hasBackendUpdate && (
+                  <div className="flex justify-end px-1">
                     <button
                       onClick={() => setShowUpdatePrompt(true)}
                       className="text-[10px] font-medium text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors"
                     >
                       有新版本 →
                     </button>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

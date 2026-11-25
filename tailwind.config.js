@@ -7,6 +7,10 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      // 正文基准从 12px 提到 13px（手机中文 12px 偏小）
+      fontSize: {
+        xs: ['13px', '1.25rem'],
+      },
       colors: {
         primary: {
           50: '#f0f9ff',
