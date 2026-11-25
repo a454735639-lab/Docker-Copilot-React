@@ -33,6 +33,7 @@ const SECTIONS = [
       { key: 'wecomSecret', label: '应用 Secret', placeholder: '企业微信应用的 Secret' },
       { key: 'wecomAgentId', label: 'Agent ID', placeholder: '如 1000002' },
       { key: 'wecomToUser', label: '接收人', placeholder: '@all（默认全部成员）' },
+      { key: 'wecomProxy', label: '代理', placeholder: 'none=直连（默认）/ 留空=走系统代理 / http://...' },
     ],
   },
   {
