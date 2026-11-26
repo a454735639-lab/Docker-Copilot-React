@@ -118,13 +118,16 @@ export function Settings() {
     setTestResult(null)
     try {
       const response = await settingsAPI.testNotify(values)
-      if (response.data.code === 200) {
-        setTestResult({ type: 'success', msg: response.data.msg + (response.data.data ? ('\n格式: ' + response.data.data.result) : '') })
+      const d = response.data || {}
+      if (d.code === 200) {
+        setTestResult({ type: 'success', msg: d.msg + (d.data && d.data.format ? ('\n格式: ' + d.data.format) : '') })
       } else {
-        setTestResult({ type: 'error', msg: response.data.msg })
+        setTestResult({ type: 'error', msg: d.msg || '发送失败' })
       }
     } catch (e) {
-      setTestResult({ type: 'error', msg: e.message || '请求失败' })
+      // axios 对非 2xx 抛错，后端的具体错误在 e.response.data.msg 里
+      const d = e.response && e.response.data
+      setTestResult({ type: 'error', msg: (d && d.msg) || e.message || '请求失败' })
     }
   }
 
